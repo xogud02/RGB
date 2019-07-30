@@ -2,4 +2,8 @@
 
 
 #include "RGBGameModeBase.h"
+#include "RGBCharacter.h"
 
+ARGBGameModeBase::ARGBGameModeBase() {
+	DefaultPawnClass = ARGBCharacter::StaticClass();
+}

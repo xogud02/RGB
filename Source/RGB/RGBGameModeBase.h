@@ -14,4 +14,7 @@ class RGB_API ARGBGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+
+public:
+	ARGBGameModeBase();
 };

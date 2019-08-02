@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "RGB.h"
 #include "GameFramework/Character.h"
 #include "GameFramework\SpringArmComponent.h"
 #include "RGBCharacter.generated.h"
@@ -16,6 +16,12 @@ private:
 	UPROPERTY(EditAnywhere, Category = SpringArm)
 	USpringArmComponent* SpringArm;
 
+	UPROPERTY(EditAnywhere)
+	UMaterialInstanceDynamic* BodyMaterial;
+
+	UPROPERTY(EditAnywhere)
+	UMaterialInstanceDynamic* LogoMaterial;
+
 	UPROPERTY(EditAnywhere, Category = SpringArm)
 	float MinTargetArmLength = 150;
 
@@ -28,8 +34,10 @@ private:
 public:
 	// Sets default values for this character's properties
 	ARGBCharacter();
+	void SetBodyColor(EColor Color);
 
 private:
+
 	inline void InitMesh();
 	inline void InitCamera();
 	inline void InitCharacterMovement();

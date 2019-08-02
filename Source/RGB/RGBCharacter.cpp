@@ -11,6 +11,8 @@
 #include "Components\CapsuleComponent.h"
 #include "Components\InputComponent.h"
 #include "RGBCharacterAnimInstance.h"
+#include "Materials\MaterialInterface.h"
+#include "Materials\MaterialInstanceDynamic.h"
 
 // Sets default values
 ARGBCharacter::ARGBCharacter()
@@ -23,9 +25,37 @@ ARGBCharacter::ARGBCharacter()
 	InitCharacterMovement();
 }
 
+void ARGBCharacter::SetBodyColor(EColor Color) {
+	FLinearColor NewColor = FLinearColor();
+	switch (Color) {
+	case EColor::RED:
+		NewColor = FLinearColor::Red;
+		break;
+	case EColor::GREEN:
+		NewColor = FLinearColor::Green;
+		break;
+	case EColor::BLUE:
+		NewColor = FLinearColor::Blue;
+		break;
+	case EColor::WHITE:
+	default:
+		NewColor = FLinearColor::White;
+		break;
+
+	}
+	BodyMaterial->SetVectorParameterValue(TEXT("BodyColor"), NewColor);
+	LogoMaterial->SetVectorParameterValue(TEXT("BodyColor"), NewColor);
+}
+
 void ARGBCharacter::InitMesh() {
 	const auto Mannequin = ConstructorHelpers::FObjectFinder<USkeletalMesh>(TEXT("SkeletalMesh'/Game/Mannequin/Character/Mesh/SK_Mannequin.SK_Mannequin'")).Object;
 	GetMesh()->SetSkeletalMesh(Mannequin);
+
+	BodyMaterial = UMaterialInstanceDynamic::Create(GetMesh()->GetMaterial(0), this, TEXT("Body"));
+	GetMesh()->SetMaterial(0, BodyMaterial);
+	LogoMaterial = UMaterialInstanceDynamic::Create(GetMesh()->GetMaterial(1), this, TEXT("Logo"));
+	GetMesh()->SetMaterial(1, LogoMaterial);
+	SetBodyColor(EColor::WHITE);
 	const auto HalfHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
 	GetMesh()->SetRelativeLocation(FVector(0, 0, -HalfHeight));
 	GetMesh()->SetRelativeRotation(FRotator(0, -90.0f, 0));
@@ -40,8 +70,8 @@ void ARGBCharacter::InitCamera() {
 	SpringArm->SetupAttachment(GetRootComponent());
 	SpringArm->bUsePawnControlRotation = true;
 	SpringArm->SetRelativeRotation(FRotator(-30.0f, 0, 0));
-	const auto halfHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
-	SpringArm->SetRelativeLocation(FVector(0, 0, halfHeight / 2));
+	const auto HalfHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+	SpringArm->SetRelativeLocation(FVector(0, 0, HalfHeight / 2));
 	bUseControllerRotationYaw = false;
 }
 

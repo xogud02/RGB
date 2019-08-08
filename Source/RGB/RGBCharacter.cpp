@@ -26,25 +26,14 @@ ARGBCharacter::ARGBCharacter()
 }
 
 void ARGBCharacter::SetBodyColor(EColor Color) {
-	FLinearColor NewColor = FLinearColor();
-	switch (Color) {
-	case EColor::RED:
-		NewColor = FLinearColor::Red;
-		break;
-	case EColor::GREEN:
-		NewColor = FLinearColor::Green;
-		break;
-	case EColor::BLUE:
-		NewColor = FLinearColor::Blue;
-		break;
-	case EColor::WHITE:
-	default:
-		NewColor = FLinearColor::White;
-		break;
-
-	}
+	BodyColor = Color;
+	FLinearColor NewColor = ConvertToColor(Color);
 	BodyMaterial->SetVectorParameterValue(TEXT("BodyColor"), NewColor);
 	LogoMaterial->SetVectorParameterValue(TEXT("BodyColor"), NewColor);
+}
+
+EColor ARGBCharacter::GetBodyColor(){
+	return BodyColor;
 }
 
 void ARGBCharacter::InitMesh() {

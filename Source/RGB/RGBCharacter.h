@@ -31,11 +31,13 @@ private:
 	UPROPERTY(EditAnywhere, Category = SpringArm)
 	float ZoomRate = 15;
 
+	EColor BodyColor;
+
 public:
 	// Sets default values for this character's properties
 	ARGBCharacter();
 	void SetBodyColor(EColor Color);
-
+	EColor GetBodyColor();
 private:
 
 	inline void InitMesh();

@@ -4,9 +4,12 @@
 
 #include "CoreMinimal.h"
 
+UENUM()
 enum class EColor {
 	RED,
 	GREEN,
 	BLUE,
 	WHITE
 };
+
+FLinearColor ConvertToColor(EColor Color);

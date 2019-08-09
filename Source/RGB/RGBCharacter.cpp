@@ -30,6 +30,7 @@ void ARGBCharacter::SetBodyColor(EColor Color) {
 	FLinearColor NewColor = ConvertToColor(Color);
 	BodyMaterial->SetVectorParameterValue(TEXT("BodyColor"), NewColor);
 	LogoMaterial->SetVectorParameterValue(TEXT("BodyColor"), NewColor);
+	OnColorChange.Broadcast(Color);
 }
 
 EColor ARGBCharacter::GetBodyColor(){

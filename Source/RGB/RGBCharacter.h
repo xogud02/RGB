@@ -7,6 +7,8 @@
 #include "GameFramework\SpringArmComponent.h"
 #include "RGBCharacter.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(OnColorChangeSignature, EColor);
+
 UCLASS()
 class RGB_API ARGBCharacter : public ACharacter
 {
@@ -34,10 +36,13 @@ private:
 	EColor BodyColor;
 
 public:
+	OnColorChangeSignature OnColorChange;
+
+public:
 	// Sets default values for this character's properties
 	ARGBCharacter();
 	void SetBodyColor(EColor Color);
-	EColor GetBodyColor();
+	const EColor GetBodyColor();
 private:
 
 	inline void InitMesh();

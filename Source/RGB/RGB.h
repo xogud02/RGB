@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 
+#define ARGS_LOG(x, ...) UE_LOG(LogTemp, Warning, x, __VA_ARGS__);
+#define SIMPLE_LOG(x) ARGS_LOG(x);
+
 UENUM()
 enum class EColor {
 	RED,

@@ -21,7 +21,6 @@ void ARGBBarrier::BeginPlay(){
 	auto Material = Cast<UMaterial>(StaticLoadObject(UMaterial::StaticClass(), this, TEXT("Material'/Game/material/Glow.Glow'")));
 	GetStaticMeshComponent()->CreateAndSetMaterialInstanceDynamicFromMaterial(0, Material)->SetVectorParameterValue(TEXT("BasicColor"), ConvertToColor(Color));
 
-	AGameMode* foo;
 	auto Character = Cast<ARGBCharacter>(GetWorld()->GetPawnIterator()->Get());
 	Character->OnColorChange.AddUObject(this, &ARGBBarrier::OnCharacterColorChange);
 	OnCharacterColorChange(Character->GetBodyColor());

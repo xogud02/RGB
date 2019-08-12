@@ -17,6 +17,9 @@ ARGBWarp::ARGBWarp(){
 	auto Mesh = ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Game/mesh/SM_Warp.SM_Warp'")).Object;
 	GetStaticMeshComponent()->SetStaticMesh(Mesh);
 
+	auto Material = ConstructorHelpers::FObjectFinder<UMaterialInterface>(TEXT("MaterialInstanceConstant'/Game/material/Glow/GlowSlow.GlowSlow'")).Object;
+	GetStaticMeshComponent()->SetMaterial(0, Material);
+
 	auto Arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("ARROW"));
 	Arrow->SetupAttachment(GetRootComponent());
 
@@ -27,9 +30,8 @@ ARGBWarp::ARGBWarp(){
 
 void ARGBWarp::BeginPlay(){
 	Super::BeginPlay();
-	auto Material = Cast<UMaterial>(StaticLoadObject(UMaterial::StaticClass(),this,TEXT("Material'/Game/material/Glow.Glow'")));
+	Color = ConvertToEnum(GetStaticMeshComponent()->GetMaterial(0)->GetName());
 	InitialDirection = GetActorRotation();
-	GetStaticMeshComponent()->CreateAndSetMaterialInstanceDynamicFromMaterial(0, Material)->SetVectorParameterValue("BasicColor", ConvertToColor(Color));
 }
 
 void ARGBWarp::Tick(float DeltaTime){
@@ -47,6 +49,12 @@ void ARGBWarp::OnOverlap(AActor* OverlappedActor, AActor* OtherActor){
 		return;
 	}
 
+	if (Warped) {
+		Warped = false;
+		return;
+	}
+
+	Destination->Warped = true;
 	auto YawScale = Cast<APlayerController>(Character->GetController())->InputYawScale;
 	Character->SetActorLocationAndRotation(Destination->GetActorLocation(), Destination->InitialDirection);
 	auto Scale = (- Character->GetControlRotation().Yaw + Destination->InitialDirection.Yaw) / YawScale;

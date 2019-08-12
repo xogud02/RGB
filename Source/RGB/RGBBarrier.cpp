@@ -5,7 +5,7 @@
 #include "ConstructorHelpers.h"
 #include "Components/StaticMeshComponent.h"
 #include "Materials/MaterialInterface.h"
-#include "Materials/MaterialInstanceDynamic.h"
+#include "Materials/MaterialInstance.h"
 #include "RGBCharacter.h"
 #include "GameFramework/GameMode.h"
 
@@ -13,14 +13,15 @@ ARGBBarrier::ARGBBarrier() {
 	auto Mesh = ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Game/mesh/SM_Cube.SM_Cube'")).Object;
 	GetStaticMeshComponent()->SetStaticMesh(Mesh);
 
+	auto Material = ConstructorHelpers::FObjectFinder<UMaterialInterface>(TEXT("Material'/Game/material/Glow/Glow.Glow'")).Object;
+	GetStaticMeshComponent()->SetMaterial(0, Material);
 }
 
 void ARGBBarrier::BeginPlay(){
 	Super::BeginPlay();
 
-	auto Material = Cast<UMaterial>(StaticLoadObject(UMaterial::StaticClass(), this, TEXT("Material'/Game/material/Glow.Glow'")));
-	GetStaticMeshComponent()->CreateAndSetMaterialInstanceDynamicFromMaterial(0, Material)->SetVectorParameterValue(TEXT("BasicColor"), ConvertToColor(Color));
-
+	Color = ConvertToEnum(GetStaticMeshComponent()->GetMaterial(0)->GetName());
+	
 	auto Character = Cast<ARGBCharacter>(GetWorld()->GetPawnIterator()->Get());
 	Character->OnColorChange.AddUObject(this, &ARGBBarrier::OnCharacterColorChange);
 	OnCharacterColorChange(Character->GetBodyColor());

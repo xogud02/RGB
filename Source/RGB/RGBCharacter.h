@@ -42,7 +42,7 @@ public:
 	// Sets default values for this character's properties
 	ARGBCharacter();
 	void SetBodyColor(EColor Color);
-	const EColor GetBodyColor();
+	EColor GetBodyColor();
 private:
 
 	inline void InitMesh();

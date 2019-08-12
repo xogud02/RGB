@@ -14,6 +14,8 @@ ARGBItem::ARGBItem() {
 	auto Mesh = ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Game/mesh/SM_Octahedron.SM_Octahedron'")).Object;
 	GetStaticMeshComponent()->SetStaticMesh(Mesh);
 
+	auto Material = ConstructorHelpers::FObjectFinder<UMaterialInterface>(TEXT("Material'/Game/material/Glass/Glass.Glass'")).Object;
+	GetStaticMeshComponent()->SetMaterial(0, Material);
 
 	GetStaticMeshComponent()->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
 	GetStaticMeshComponent()->SetGenerateOverlapEvents(true);
@@ -25,8 +27,7 @@ ARGBItem::ARGBItem() {
 void ARGBItem::BeginPlay() {
 	Super::BeginPlay();
 	
-	auto Material = Cast<UMaterial>(StaticLoadObject(UMaterial::StaticClass(), this, TEXT("Material'/Game/material/Glass.Glass'")));
-	GetStaticMeshComponent()->CreateAndSetMaterialInstanceDynamicFromMaterial(0, Material)->SetVectorParameterValue(TEXT("BasicColor"), ConvertToColor(Color));
+	Color = ConvertToEnum(GetStaticMeshComponent()->GetMaterial(0)->GetName());
 }
 
 void ARGBItem::Tick(float DeltaTime) {

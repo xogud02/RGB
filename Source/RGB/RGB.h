@@ -16,3 +16,5 @@ enum class EColor {
 };
 
 FLinearColor ConvertToColor(EColor Color);
+
+EColor ConvertToEnum(FString Name);

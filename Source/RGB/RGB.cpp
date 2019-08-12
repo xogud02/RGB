@@ -18,3 +18,18 @@ FLinearColor ConvertToColor(EColor Color) {
 		return FLinearColor::White;
 	}
 }
+
+EColor ConvertToEnum(FString Name){
+	switch (Name[Name.Len()-1]) {
+	case 'R':
+		return EColor::RED;
+	case 'G':
+		return EColor::GREEN;
+	case 'B':
+		return EColor::BLUE;
+	default:
+		ARGS_LOG(TEXT("Invalid Name : %s "), *Name);
+	case 'W':
+		return EColor::WHITE;
+	}
+}

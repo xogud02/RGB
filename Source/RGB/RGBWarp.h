@@ -19,7 +19,8 @@ private:
 	UPROPERTY(EditAnywhere)
 	ARGBWarp* Destination;
 
-	UPROPERTY(EditAnywhere)
+	bool Warped = false;
+
 	EColor Color = EColor::WHITE;
 
 	FRotator InitialDirection;

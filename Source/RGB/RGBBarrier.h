@@ -15,7 +15,6 @@ class RGB_API ARGBBarrier : public AStaticMeshActor
 	GENERATED_BODY()
 	
 private:
-	UPROPERTY(EditAnywhere)
 	EColor Color = EColor::WHITE;
 	
 public:

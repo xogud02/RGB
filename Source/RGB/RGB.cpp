@@ -28,7 +28,7 @@ EColor ConvertToEnum(FString Name){
 	case 'B':
 		return EColor::BLUE;
 	default:
-		ARGS_LOG(TEXT("Invalid Name : %s "), *Name);
+		ARGS_LOG("Invalid Name : %s ", *Name);
 	case 'W':
 		return EColor::WHITE;
 	}

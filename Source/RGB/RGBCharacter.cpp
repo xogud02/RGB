@@ -69,7 +69,7 @@ void ARGBCharacter::InitCharacterMovement() {
 	const auto CharacterMovement = GetCharacterMovement();
 	CharacterMovement->bOrientRotationToMovement = true;
 	CharacterMovement->RotationRate = FRotator(0, 720.0f, 0);
-	CharacterMovement->JumpZVelocity = 500.0f;
+	CharacterMovement->JumpZVelocity = 650.0f;
 }
 
 // Called when the game starts or when spawned

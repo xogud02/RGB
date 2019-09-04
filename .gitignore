@@ -4,7 +4,8 @@ DerivedDataCache/*
 Intermediate/*
 Saved/*
 
+.vscode/*
 .vs/*
 *.sln
-
+*.code-workspace
 

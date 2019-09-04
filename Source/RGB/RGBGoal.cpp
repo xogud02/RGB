@@ -1,11 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "RGBGoal.h"
-#include "ConstructorHelpers.h"
 #include "Components/StaticMeshComponent.h"
-#include "RGBCharacter.h"
+#include "ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
+#include "RGBCharacter.h"
 
 ARGBGoal::ARGBGoal() {
 	PrimaryActorTick.bCanEverTick = true;
@@ -23,14 +22,21 @@ ARGBGoal::ARGBGoal() {
 }
 
 void ARGBGoal::Tick(float DeltaTime){
-	AddActorWorldRotation(FRotator(0, DeltaTime * 90, 0));
+	Super::Tick(DeltaTime);
 
+	AddActorWorldRotation(FRotator(0, DeltaTime * 90, 0));
+	AddActorWorldTransform(FTransform(FVector(0, 0, FMath::Sin(GetGameTimeSinceCreation()) * DeltaTime * 50)));
 }
 
 void ARGBGoal::OnOverlap(AActor* OverlappedActor, AActor* OtherActor){
 	auto Character = Cast<ARGBCharacter>(OtherActor);
 
 	if (!Character) {
+		return;
+	}
+
+	if(NextLevel.IsEmpty()){
+		SIMPLE_LOG("Next Level Is Empty");
 		return;
 	}
 

@@ -2,6 +2,7 @@
 
 #include "RGBObjectMover.h"
 #include "GameFramework/Actor.h"
+#include "Transform.h"
 
 URGBObjectMover::URGBObjectMover() {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -10,6 +11,15 @@ URGBObjectMover::URGBObjectMover() {
 void URGBObjectMover::BeginPlay() {
 	Super::BeginPlay();
 	GetOwner()->PrimaryActorTick.bCanEverTick = true;
+
+	const auto InitialPosition = GetOwner()->GetActorLocation();
+	GetOwner()->GetRootComponent()->SetMobility(EComponentMobility::Movable);
+
+	Positions.SetNum(RelativePositions.Num());
+
+	for(int i=0;i<RelativePositions.Num();i++){
+		Positions[i] =  InitialPosition + RelativePositions[i];
+	}
 }
 
 void URGBObjectMover::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {

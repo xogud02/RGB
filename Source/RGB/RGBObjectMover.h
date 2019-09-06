@@ -11,6 +11,8 @@ class RGB_API URGBObjectMover : public UActorComponent {
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere)
+	TArray<FVector> RelativePositions;
+
 	TArray<FVector> Positions;
 
 	UPROPERTY(EditAnywhere)

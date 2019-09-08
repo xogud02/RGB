@@ -3,6 +3,7 @@ Binaries/*
 DerivedDataCache/*
 Intermediate/*
 Saved/*
+Content/maps/CharacterTest*
 
 .vscode/*
 .vs/*

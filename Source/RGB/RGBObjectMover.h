@@ -25,6 +25,9 @@ class RGB_API URGBObjectMover : public UActorComponent {
 	UPROPERTY(EditAnywhere)
 	float Speed = 300;
 
+	UPROPERTY(EditAnywhere)
+	bool IsPingpong = true;
+
 	UPROPERTY(VisibleAnywhere)
 	bool IsForward = true;
 

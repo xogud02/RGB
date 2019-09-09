@@ -17,8 +17,8 @@ void URGBObjectMover::BeginPlay() {
 
 	Positions.SetNum(RelativePositions.Num());
 
-	for(int i=0;i<RelativePositions.Num();i++){
-		Positions[i] =  InitialPosition + RelativePositions[i];
+	for (int i = 0; i < RelativePositions.Num(); i++) {
+		Positions[i] = InitialPosition + RelativePositions[i];
 	}
 }
 
@@ -28,18 +28,23 @@ void URGBObjectMover::TickComponent(float DeltaTime, enum ELevelTick TickType, F
 		SIMPLE_LOG("array empty");
 		return;
 	}
+
 	if (IsPaused) {
 		if (PauseCount <= 0) {
 			IsPaused = false;
 		} else {
 			PauseCount -= DeltaTime;
 		}
-	} else {
-		auto Location = GetOwner()->GetActorLocation();
-		if (Location == Positions[TargetIndex]) {
-			IsPaused = true;
-			PauseCount = PauseLength;
+		return;
+	}
 
+	auto Location = GetOwner()->GetActorLocation();
+	const bool IsArrived = Location == Positions[TargetIndex];
+	if (IsArrived) {
+		IsPaused = true;
+		PauseCount = PauseLength;
+
+		if (IsPingpong) {
 			const bool IsForWardEnd = IsForward && TargetIndex == Positions.Num() - 1;
 			const bool IsBackWardEnd = !IsForward && TargetIndex == 0;
 			if (IsForWardEnd || IsBackWardEnd) {
@@ -47,11 +52,14 @@ void URGBObjectMover::TickComponent(float DeltaTime, enum ELevelTick TickType, F
 			}
 
 			TargetIndex += IsForward ? 1 : -1;
-
 		} else {
-			auto NewLocation = FMath::VInterpConstantTo(Location, Positions[TargetIndex], DeltaTime, Speed);
-			
-			GetOwner()->SetActorLocation(NewLocation);
+			TargetIndex++;
+			TargetIndex %= Positions.Num();
 		}
+
+	} else {
+		auto NewLocation = FMath::VInterpConstantTo(Location, Positions[TargetIndex], DeltaTime, Speed);
+
+		GetOwner()->SetActorLocation(NewLocation);
 	}
 }

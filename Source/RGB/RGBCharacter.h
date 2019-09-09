@@ -2,19 +2,18 @@
 
 #pragma once
 
-#include "RGB.h"
 #include "GameFramework/Character.h"
 #include "GameFramework\SpringArmComponent.h"
+#include "RGB.h"
 #include "RGBCharacter.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(OnColorChangeSignature, EColor);
 
 UCLASS()
-class RGB_API ARGBCharacter : public ACharacter
-{
+class RGB_API ARGBCharacter : public ACharacter {
 	GENERATED_BODY()
 
-private:
+   private:
 	UPROPERTY(EditAnywhere, Category = SpringArm)
 	USpringArmComponent* SpringArm;
 
@@ -35,25 +34,25 @@ private:
 
 	EColor BodyColor;
 
-public:
+   public:
 	OnColorChangeSignature OnColorChange;
 
-public:
+   public:
 	// Sets default values for this character's properties
 	ARGBCharacter();
 	void SetBodyColor(EColor Color);
 	EColor GetBodyColor();
-private:
 
+   private:
 	inline void InitMesh();
 	inline void InitCamera();
 	inline void InitCharacterMovement();
 
-protected:
+   protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+   public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -69,4 +68,6 @@ public:
 	void LookUp(float Scale);
 
 	void Zoom(float scale);
+
+	void WarpTo(FVector DestLocation, FRotator DestDirection);
 };

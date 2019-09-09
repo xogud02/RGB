@@ -58,7 +58,6 @@ void ARGBCharacter::InitCamera() {
 	SpringArm->SetupAttachment(GetRootComponent());
 	SpringArm->bUsePawnControlRotation = true;
 	SpringArm->bEnableCameraLag = true;
-	SpringArm->bEnableCameraRotationLag = true;
 	SpringArm->SetRelativeRotation(FRotator(-30.0f, 0, 0));
 	const auto HalfHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
 	SpringArm->SetRelativeLocation(FVector(0, 0, HalfHeight / 2));
@@ -105,11 +104,19 @@ void ARGBCharacter::MoveRight(float Scale) {
 }
 
 void ARGBCharacter::Turn(float Scale) {
+	if (Scale == 0) {
+		return;
+	}
 	AddControllerYawInput(Scale);
+	SpringArm->bEnableCameraRotationLag = false;
 }
 
 void ARGBCharacter::LookUp(float Scale) {
+	if (Scale == 0) {
+		return;
+	}
 	AddControllerPitchInput(Scale);
+	SpringArm->bEnableCameraRotationLag = false;
 }
 
 void ARGBCharacter::Zoom(float Scale) {
@@ -123,4 +130,12 @@ void ARGBCharacter::Zoom(float Scale) {
 	}
 
 	SpringArm->TargetArmLength += Scale * ZoomRate;
+}
+
+void ARGBCharacter::WarpTo(FVector DestLocation, FRotator DestDirection) {
+	SpringArm->bEnableCameraRotationLag = true;
+	auto YawScale = Cast<APlayerController>(GetController())->InputYawScale;
+	SetActorLocationAndRotation(DestLocation, DestDirection);
+	auto Scale = (-GetControlRotation().Yaw + DestDirection.Yaw) / YawScale;
+	AddControllerYawInput(Scale);
 }

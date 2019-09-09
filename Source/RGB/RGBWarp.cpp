@@ -1,16 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "RGBWarp.h"
-#include "Components/StaticMeshComponent.h"
-#include "RGBCharacter.h"
-#include "ConstructorHelpers.h"
 #include "Components/ArrowComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "ConstructorHelpers.h"
+#include "GameFramework/PlayerController.h"
 #include "Materials/Material.h"
 #include "Materials/MaterialInstanceDynamic.h"
-#include "GameFramework/PlayerController.h"
+#include "RGBCharacter.h"
 
-ARGBWarp::ARGBWarp(){
+ARGBWarp::ARGBWarp() {
 	PrimaryActorTick.bCanEverTick = true;
 	SetMobility(EComponentMobility::Movable);
 
@@ -28,18 +27,18 @@ ARGBWarp::ARGBWarp(){
 	GetStaticMeshComponent()->SetGenerateOverlapEvents(true);
 }
 
-void ARGBWarp::BeginPlay(){
+void ARGBWarp::BeginPlay() {
 	Super::BeginPlay();
 	Color = ConvertToEnum(GetStaticMeshComponent()->GetMaterial(0)->GetName());
 	InitialDirection = GetActorRotation();
 }
 
-void ARGBWarp::Tick(float DeltaTime){
+void ARGBWarp::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 	AddActorLocalRotation(FRotator(0, DeltaTime * 30, 0));
 }
 
-void ARGBWarp::OnOverlap(AActor* OverlappedActor, AActor* OtherActor){
+void ARGBWarp::OnOverlap(AActor* OverlappedActor, AActor* OtherActor) {
 	auto Character = Cast<ARGBCharacter>(OtherActor);
 	if (Character->GetBodyColor() != Color) {
 		return;
@@ -55,8 +54,5 @@ void ARGBWarp::OnOverlap(AActor* OverlappedActor, AActor* OtherActor){
 	}
 
 	Destination->Warped = true;
-	auto YawScale = Cast<APlayerController>(Character->GetController())->InputYawScale;
-	Character->SetActorLocationAndRotation(Destination->GetActorLocation(), Destination->InitialDirection);
-	auto Scale = (- Character->GetControlRotation().Yaw + Destination->InitialDirection.Yaw) / YawScale;
-	Character->AddControllerYawInput(Scale);
+	Character->WarpTo(Destination->GetActorLocation(),Destination->InitialDirection);
 }

@@ -4,6 +4,7 @@
 
 #include "Components/ActorComponent.h"
 #include "RGB.h"
+#include "PositionArrayTraveler.h"
 #include "RGBObjectMover.generated.h"
 
 UCLASS(ClassGroup = (Common, Movement), meta = (BlueprintSpawnableComponent))
@@ -12,27 +13,21 @@ class RGB_API URGBObjectMover : public UActorComponent {
 
 	UPROPERTY(EditAnywhere)
 	TArray<FVector> RelativePositions;
-
-	TArray<FVector> Positions;
-
 	UPROPERTY(EditAnywhere)
 	float PauseLength = 1.5;
 
 	float PauseCount;
 
-	int TargetIndex;
+	FVector TargetPosition;
 
 	UPROPERTY(EditAnywhere)
 	float Speed = 300;
 
-	UPROPERTY(EditAnywhere)
-	bool IsPingpong = true;
-
-	UPROPERTY(VisibleAnywhere)
-	bool IsForward = true;
-
 	UPROPERTY(VisibleAnywhere)
 	bool IsPaused = true;
+
+	UPROPERTY(EditAnywhere, NoClear)
+	UPositionArrayTraveler* PositionArrayTraveler;
 
    public:
 	virtual void BeginPlay() override;

@@ -18,8 +18,8 @@ class RGB_API UPositionArrayTraveler : public UObject {
 	TArray<FVector> Positions;
 
    protected:
-	virtual int GetNextIndex() PURE_VIRTUAL(UPositionArrayTraveler::GetNextIndex, return 0;);
-	virtual void UpdateArraySize(int Size) PURE_VIRTUAL(UPositionArrayTraveler::UpdateArraySize, return;);
+	virtual int32 GetNextIndex() PURE_VIRTUAL(UPositionArrayTraveler::GetNextIndex, return 0;);
+	virtual void UpdateArraySize(int32 Size) PURE_VIRTUAL(UPositionArrayTraveler::UpdateArraySize, return;);
 
    public:
 	FVector GetNextPosition();

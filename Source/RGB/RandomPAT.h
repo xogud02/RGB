@@ -15,9 +15,9 @@ class RGB_API URandomPAT : public UPositionArrayTraveler {
 	GENERATED_BODY()
 
    private:
-	TQueue<int> IndexQueue;
+	TQueue<int32> IndexQueue;
 
    protected:
-	virtual int GetNextIndex() override;
-	virtual void UpdateArraySize(int Size) override;
+	virtual int32 GetNextIndex() override;
+	virtual void UpdateArraySize(int32 Size) override;
 };

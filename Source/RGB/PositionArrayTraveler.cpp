@@ -7,11 +7,13 @@ FVector UPositionArrayTraveler::GetNextPosition() {
 }
 
 void UPositionArrayTraveler::SetPositions(TArray<FVector> RelativePositions, FVector InitialPosition) {
-	int Size = RelativePositions.Num();
-	Positions.SetNum(Size);
+	int32 Size = RelativePositions.Num();
+
 	UpdateArraySize(Size);
 
-	for (int i = 0; i < Size; i++) {
-		Positions[i] = InitialPosition + RelativePositions[i];
+	ARGS_LOG("size %d", Size);
+
+	for (auto& RelativePosition : RelativePositions) {
+		Positions.Add(InitialPosition + RelativePosition);
 	}
 }

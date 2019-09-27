@@ -15,10 +15,10 @@ class RGB_API UPingPongPAT : public UPositionArrayTraveler {
 
    private:
 	bool IsForWard = true;
-	int CurrentIndex = 0;
-	int Size = 0;
+	int32 CurrentIndex = 0;
+	int32 Size = 0;
 
    protected:
-	virtual int GetNextIndex() override;
-	virtual void UpdateArraySize(int Size) override;
+	virtual int32 GetNextIndex() override;
+	virtual void UpdateArraySize(int32 Size) override;
 };

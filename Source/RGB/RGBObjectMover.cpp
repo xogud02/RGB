@@ -7,8 +7,6 @@
 
 URGBObjectMover::URGBObjectMover() {
 	PrimaryComponentTick.bCanEverTick = true;
-
-	PositionArrayTraveler = NewObject<UPingPongPAT>();
 }
 
 void URGBObjectMover::BeginPlay() {
@@ -17,6 +15,10 @@ void URGBObjectMover::BeginPlay() {
 
 	GetOwner()->GetRootComponent()->SetMobility(EComponentMobility::Movable);
 
+	if(!PositionArrayTraveler){
+		PositionArrayTraveler = NewObject<UPingPongPAT>();
+	}
+	
 	const auto InitialPosition = GetOwner()->GetActorLocation();
 	TargetPosition = InitialPosition;
 	PositionArrayTraveler->SetPositions(RelativePositions, InitialPosition);

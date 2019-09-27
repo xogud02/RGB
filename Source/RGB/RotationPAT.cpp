@@ -2,12 +2,12 @@
 
 #include "RotationPAT.h"
 
-int URotationPAT::GetNextIndex() {
+int32 URotationPAT::GetNextIndex() {
 	CurrentIndex++;
 	CurrentIndex %= Size;
 	return CurrentIndex;
 }
 
-void URotationPAT::UpdateArraySize(int Size) {
+void URotationPAT::UpdateArraySize(int32 Size) {
 	URotationPAT::Size = Size;
 }

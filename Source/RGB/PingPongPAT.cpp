@@ -3,7 +3,7 @@
 #include "PingPongPAT.h"
 #include "RGB.h"
 
-int UPingPongPAT::GetNextIndex() {
+int32 UPingPongPAT::GetNextIndex() {
 	const bool IsForwardEnd = IsForWard && CurrentIndex == Size - 1;
 	const bool IsBackwardEnd = !IsForWard && CurrentIndex == 0;
 	if (IsForwardEnd || IsBackwardEnd) {
@@ -14,6 +14,6 @@ int UPingPongPAT::GetNextIndex() {
 	return CurrentIndex;
 }
 
-void UPingPongPAT::UpdateArraySize(int Size) {
+void UPingPongPAT::UpdateArraySize(int32 Size) {
 	UPingPongPAT::Size = Size;
 }

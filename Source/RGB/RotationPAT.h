@@ -14,10 +14,10 @@ class RGB_API URotationPAT : public UPositionArrayTraveler {
 	GENERATED_BODY()
 
    private:
-	int CurrentIndex = 0;
-	int Size = 0;
+	int32 CurrentIndex = 0;
+	int32 Size = 0;
 
    protected:
-	virtual int GetNextIndex();
-	virtual void UpdateArraySize(int Size) override;
+	virtual int32 GetNextIndex();
+	virtual void UpdateArraySize(int32 Size) override;
 };

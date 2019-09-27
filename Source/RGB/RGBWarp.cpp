@@ -31,6 +31,9 @@ void ARGBWarp::BeginPlay() {
 	Super::BeginPlay();
 	Color = ConvertToEnum(GetStaticMeshComponent()->GetMaterial(0)->GetName());
 	InitialDirection = GetActorRotation();
+	if(!Destination){
+		GetRootComponent()->SetVisibility(false);
+	}
 }
 
 void ARGBWarp::Tick(float DeltaTime) {
@@ -40,6 +43,12 @@ void ARGBWarp::Tick(float DeltaTime) {
 
 void ARGBWarp::OnOverlap(AActor* OverlappedActor, AActor* OtherActor) {
 	auto Character = Cast<ARGBCharacter>(OtherActor);
+
+	if (Warped) {
+		Warped = false;
+		return;
+	}
+
 	if (Character->GetBodyColor() != Color) {
 		return;
 	}
@@ -48,11 +57,6 @@ void ARGBWarp::OnOverlap(AActor* OverlappedActor, AActor* OtherActor) {
 		return;
 	}
 
-	if (Warped) {
-		Warped = false;
-		return;
-	}
-
 	Destination->Warped = true;
-	Character->WarpTo(Destination->GetActorLocation(),Destination->InitialDirection);
+	Character->WarpTo(Destination->GetActorLocation(), Destination->InitialDirection);
 }

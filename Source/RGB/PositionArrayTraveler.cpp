@@ -9,6 +9,7 @@ FVector UPositionArrayTraveler::GetNextPosition() {
 void UPositionArrayTraveler::SetPositions(TArray<FVector> RelativePositions, FVector InitialPosition) {
 	int Size = RelativePositions.Num();
 	Positions.SetNum(Size);
+	UpdateArraySize(Size);
 
 	for (int i = 0; i < Size; i++) {
 		Positions[i] = InitialPosition + RelativePositions[i];

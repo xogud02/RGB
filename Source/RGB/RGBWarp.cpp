@@ -31,6 +31,9 @@ void ARGBWarp::BeginPlay() {
 	Super::BeginPlay();
 	Color = ConvertToEnum(GetStaticMeshComponent()->GetMaterial(0)->GetName());
 	InitialDirection = GetActorRotation();
+	if(!Destination){
+		GetRootComponent()->SetVisibility(false);
+	}
 }
 
 void ARGBWarp::Tick(float DeltaTime) {

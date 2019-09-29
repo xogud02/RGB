@@ -13,11 +13,6 @@ UCLASS()
 class RGB_API URotationPAT : public UPositionArrayTraveler {
 	GENERATED_BODY()
 
-   private:
-	int32 CurrentIndex = 0;
-	int32 Size = 0;
-
    protected:
-	virtual int32 GetNextIndex();
-	virtual void UpdateArraySize(int32 Size) override;
+	virtual TArray<int32> CreateIndexes(int32 Size) override;
 };

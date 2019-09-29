@@ -2,12 +2,11 @@
 
 #include "RotationPAT.h"
 
-int32 URotationPAT::GetNextIndex() {
-	CurrentIndex++;
-	CurrentIndex %= Size;
-	return CurrentIndex;
-}
-
-void URotationPAT::UpdateArraySize(int32 Size) {
-	URotationPAT::Size = Size;
+TArray<int32> URotationPAT::CreateIndexes(int32 Size) {
+	auto Indexes = TArray<int32>();
+	Indexes.SetNum(Size);
+	for(int32 i=0;i<Size;i++){
+		Indexes[i] = i;
+	}
+	return Indexes;
 }

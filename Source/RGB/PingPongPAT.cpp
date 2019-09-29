@@ -1,19 +1,16 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "PingPongPAT.h"
-#include "RGB.h"
+#include "Array.h"
 
-int32 UPingPongPAT::GetNextIndex() {
-	const bool IsForwardEnd = IsForWard && CurrentIndex == Size - 1;
-	const bool IsBackwardEnd = !IsForWard && CurrentIndex == 0;
-	if (IsForwardEnd || IsBackwardEnd) {
-		IsForWard = !IsForWard;
+TArray<int32> UPingPongPAT::CreateIndexes(int32 Size) {
+	auto Indexes = TArray<int32>();
+	for(int32 i = 0; i < Size - 1; i++){
+		Indexes.Add(i);
 	}
-
-	CurrentIndex += IsForWard ? 1 : -1;
-	return CurrentIndex;
+	for(int32 i = 0; i < Size - 1; i++){
+		Indexes.Add(Size - 1 - i);
+	}
+	return Indexes;
 }
-
-void UPingPongPAT::UpdateArraySize(int32 Size) {
-	UPingPongPAT::Size = Size;
-}
+//012101210

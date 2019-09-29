@@ -3,15 +3,19 @@
 #include "PositionArrayTraveler.h"
 
 FVector UPositionArrayTraveler::GetNextPosition() {
-	return Positions[GetNextIndex()];
+	int32 CurrentIndex;
+	IndexQueue.Dequeue(CurrentIndex);
+	IndexQueue.Enqueue(CurrentIndex);
+	return Positions[CurrentIndex];
 }
 
 void UPositionArrayTraveler::SetPositions(TArray<FVector> RelativePositions, FVector InitialPosition) {
 	int32 Size = RelativePositions.Num();
 
-	UpdateArraySize(Size);
-
-	ARGS_LOG("size %d", Size);
+	auto Indexes = CreateIndexes(Size);
+	for(int32 i: Indexes){
+		IndexQueue.Enqueue(i);
+	}
 
 	for (auto& RelativePosition : RelativePositions) {
 		Positions.Add(InitialPosition + RelativePosition);

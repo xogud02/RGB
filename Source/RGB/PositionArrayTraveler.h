@@ -4,6 +4,8 @@
 
 #include "RGB.h"
 #include "UObject/NoExportTypes.h"
+#include "Queue.h"
+#include "Array.h"
 #include "PositionArrayTraveler.generated.h"
 
 /**
@@ -16,10 +18,10 @@ class RGB_API UPositionArrayTraveler : public UObject {
 
    private:
 	TArray<FVector> Positions;
+	TQueue<int32> IndexQueue;
 
    protected:
-	virtual int32 GetNextIndex() PURE_VIRTUAL(UPositionArrayTraveler::GetNextIndex, return 0;);
-	virtual void UpdateArraySize(int32 Size) PURE_VIRTUAL(UPositionArrayTraveler::UpdateArraySize, return;);
+	virtual TArray<int32> CreateIndexes(int32 Size) PURE_VIRTUAL(UPositionArrayTraveler::CreateIndexes, return TArray<int32>(); );
 
    public:
 	FVector GetNextPosition();

@@ -16,7 +16,7 @@
 	],
 	"TargetPlatforms": [
 		"AllDesktop",
-		"MacNoEditor",
-		"WindowsNoEditor"
+		"WindowsNoEditor",
+		"MacNoEditor"
 	]
 }

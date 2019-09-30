@@ -10,20 +10,21 @@
  * 
  */
 UCLASS()
-class RGB_API ARGBItem : public AStaticMeshActor
-{
+class RGB_API ARGBItem : public AStaticMeshActor {
 	GENERATED_BODY()
-	
-private:
+
+   private:
 	UPROPERTY(EditAnywhere)
 	EColor Color = EColor::WHITE;
-	
-public:
+
+   public:
 	ARGBItem();
-protected:
+
+   protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-private:
+
+   private:
 	UFUNCTION()
 	void OnOverlap(AActor* OverlappedActor, AActor* OtherActor);
 };

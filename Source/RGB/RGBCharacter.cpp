@@ -23,6 +23,10 @@ ARGBCharacter::ARGBCharacter() {
 	InitCharacterMovement();
 }
 
+void ARGBCharacter::AddCharacterColorObserver(ICharacterColorObserver* Observer){
+	OnColorChange.AddLambda([Observer](EColor NewColor)->void{ Observer->UpdateColor(NewColor); });
+}
+
 void ARGBCharacter::SetBodyColor(EColor Color) {
 	BodyColor = Color;
 	FLinearColor NewColor = ConvertToColor(Color);

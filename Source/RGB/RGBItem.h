@@ -4,13 +4,14 @@
 
 #include "RGB.h"
 #include "Engine/StaticMeshActor.h"
+#include "CharacterColorObserver.h"
 #include "RGBItem.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class RGB_API ARGBItem : public AStaticMeshActor {
+class RGB_API ARGBItem : public AStaticMeshActor, public ICharacterColorObserver {
 	GENERATED_BODY()
 
    private:
@@ -27,4 +28,6 @@ class RGB_API ARGBItem : public AStaticMeshActor {
    private:
 	UFUNCTION()
 	void OnOverlap(AActor* OverlappedActor, AActor* OtherActor);
+
+	virtual void UpdateColor(EColor NewColor) override;
 };

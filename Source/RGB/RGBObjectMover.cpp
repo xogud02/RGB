@@ -14,7 +14,7 @@ void URGBObjectMover::BeginPlay() {
 	GetOwner()->PrimaryActorTick.bCanEverTick = true;
 
 	GetOwner()->GetRootComponent()->SetMobility(EComponentMobility::Movable);
-
+	
 	if(!PositionArrayTraveler){
 		PositionArrayTraveler = NewObject<UPingPongPAT>();
 	}

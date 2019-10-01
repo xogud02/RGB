@@ -31,32 +31,45 @@ void ARGBWarp::BeginPlay() {
 	Super::BeginPlay();
 	Color = ConvertToEnum(GetStaticMeshComponent()->GetMaterial(0)->GetName());
 	InitialDirection = GetActorRotation();
+
 	if(!Destination){
 		GetRootComponent()->SetVisibility(false);
+		GetStaticMeshComponent()->SetCollisionProfileName("NoCollision");
+		return;
 	}
+
+	auto Character = Cast<ARGBCharacter>(GetWorld()->GetPawnIterator()->Get());
+	Character->AddCharacterColorObserver(this);
+	UpdateColor(Character->GetBodyColor());
 }
 
 void ARGBWarp::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
-	AddActorLocalRotation(FRotator(0, DeltaTime * 30, 0));
+	AddActorLocalRotation(FRotator(0, DeltaTime * CurrentRoatateSpeed, 0));
 }
 
 void ARGBWarp::OnOverlap(AActor* OverlappedActor, AActor* OtherActor) {
 	auto Character = Cast<ARGBCharacter>(OtherActor);
 
 	if (Warped) {
-		Warped = false;
-		return;
-	}
-
-	if (Character->GetBodyColor() != Color) {
-		return;
-	}
-
-	if (!Destination) {
 		return;
 	}
 
 	Destination->Warped = true;
 	Character->WarpTo(Destination->GetActorLocation(), Destination->InitialDirection);
+	Destination->Warped = false;
+}
+
+void ARGBWarp::UpdateColor(EColor NewColor){
+	ActivateWarp(NewColor == Color);
+}
+
+void ARGBWarp::ActivateWarp(bool Activate){
+	if(Activate){
+		GetStaticMeshComponent()->SetCollisionProfileName("OverlapOnlyPawn");
+		CurrentRoatateSpeed = RotateSpeed;
+	}else{
+		GetStaticMeshComponent()->SetCollisionProfileName("NoCollision");
+		CurrentRoatateSpeed = 0;
+	}
 }

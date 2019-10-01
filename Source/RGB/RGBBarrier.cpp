@@ -23,11 +23,11 @@ void ARGBBarrier::BeginPlay(){
 	Color = ConvertToEnum(GetStaticMeshComponent()->GetMaterial(0)->GetName());
 	
 	auto Character = Cast<ARGBCharacter>(GetWorld()->GetPawnIterator()->Get());
-	Character->OnColorChange.AddUObject(this, &ARGBBarrier::OnCharacterColorChange);
-	OnCharacterColorChange(Character->GetBodyColor());
+	Character->AddCharacterColorObserver(this);
+	UpdateColor(Character->GetBodyColor());
 }
 
-void ARGBBarrier::OnCharacterColorChange(EColor NewColor){
+void ARGBBarrier::UpdateColor(EColor NewColor){
 	if (NewColor != Color) {
 		GetStaticMeshComponent()->SetCollisionProfileName("BlockAll");
 		return;
@@ -37,5 +37,4 @@ void ARGBBarrier::OnCharacterColorChange(EColor NewColor){
 		GetStaticMeshComponent()->SetCollisionProfileName("NoCollision");
 		return;
 	}
-
 }

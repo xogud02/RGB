@@ -4,25 +4,23 @@
 
 #include "RGB.h"
 #include "Engine/StaticMeshActor.h"
+#include "CharacterColorObserver.h"
 #include "RGBBarrier.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class RGB_API ARGBBarrier : public AStaticMeshActor
-{
+class RGB_API ARGBBarrier : public AStaticMeshActor, public ICharacterColorObserver{
 	GENERATED_BODY()
-	
-private:
+
+   private:
 	EColor Color = EColor::WHITE;
-	
-public:
+
+   public:
 	ARGBBarrier();
+	virtual void UpdateColor(EColor NewColor) override;
 
-protected:
+   protected:
 	virtual void BeginPlay() override;
-
-private:
-	void OnCharacterColorChange(EColor NewColor);
 };

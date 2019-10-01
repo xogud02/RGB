@@ -5,6 +5,7 @@
 #include "GameFramework/Character.h"
 #include "GameFramework\SpringArmComponent.h"
 #include "RGB.h"
+#include "CharacterColorObserver.h"
 #include "RGBCharacter.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(OnColorChangeSignature, EColor);
@@ -34,8 +35,9 @@ class RGB_API ARGBCharacter : public ACharacter {
 
 	EColor BodyColor;
 
-   public:
 	OnColorChangeSignature OnColorChange;
+   public:
+	void AddCharacterColorObserver(ICharacterColorObserver* Observer);
 
    public:
 	// Sets default values for this character's properties

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "RGB.h"
+#include "CharacterColorObserver.h"
 #include "Engine/StaticMeshActor.h"
 #include "RGBWarp.generated.h"
 
@@ -10,7 +11,7 @@
  * 
  */
 UCLASS()
-class RGB_API ARGBWarp : public AStaticMeshActor
+class RGB_API ARGBWarp : public AStaticMeshActor, public ICharacterColorObserver
 {
 	GENERATED_BODY()
 	
@@ -22,6 +23,9 @@ private:
 	bool Warped = false;
 
 	EColor Color = EColor::WHITE;
+
+	const float RotateSpeed = 30;
+	float CurrentRoatateSpeed = 0;
 
 	FRotator InitialDirection;
 
@@ -35,4 +39,6 @@ protected:
 private:
 	UFUNCTION()
 	void OnOverlap(AActor* OverlappedActor, AActor* OtherActor);
+	virtual void UpdateColor(EColor NewColor) override;
+	void ActivateWarp(bool Activate);
 };

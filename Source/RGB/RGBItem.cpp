@@ -16,8 +16,6 @@ ARGBItem::ARGBItem() {
 
 	auto Material = ConstructorHelpers::FObjectFinder<UMaterialInterface>(TEXT("Material'/Game/material/Glass/Glass.Glass'")).Object;
 	GetStaticMeshComponent()->SetMaterial(0, Material);
-
-	GetStaticMeshComponent()->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
 	GetStaticMeshComponent()->SetGenerateOverlapEvents(true);
 	GetStaticMeshComponent()->SetMobility(EComponentMobility::Movable);
 
@@ -26,8 +24,11 @@ ARGBItem::ARGBItem() {
 
 void ARGBItem::BeginPlay() {
 	Super::BeginPlay();
-	
+
 	Color = ConvertToEnum(GetStaticMeshComponent()->GetMaterial(0)->GetName());
+	auto Character = Cast<ARGBCharacter>(GetWorld()->GetPawnIterator()->Get());
+	Character->AddCharacterColorObserver(this);
+	UpdateColor(Character->GetBodyColor());;
 }
 
 void ARGBItem::Tick(float DeltaTime) {
@@ -38,9 +39,18 @@ void ARGBItem::Tick(float DeltaTime) {
 
 void ARGBItem::OnOverlap(AActor* OverlappedActor, AActor* OtherActor){
 	auto Character = Cast<ARGBCharacter>(OtherActor);
-	if (Character->GetBodyColor() == Color) {
+	Character->SetBodyColor(Color);
+}
+
+void ARGBItem::UpdateColor(EColor NewColor){
+	if (NewColor != Color) {
+		GetStaticMeshComponent()->SetCollisionProfileName("OverlapOnlyPawn");
 		return;
 	}
-	Character->SetBodyColor(Color);
+
+	if (NewColor == Color) {
+		GetStaticMeshComponent()->SetCollisionProfileName("NoCollision");
+		return;
+	}
 }
 

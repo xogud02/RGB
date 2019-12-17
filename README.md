@@ -102,7 +102,9 @@
 ##### 언리얼 엔진 패러다임 이해
 
 - 언리얼 빌드 시스템의 이해
-- .uproject파일과 UBT(Unreal Build Tool)의 동작방식 이해
+
+  - .uproject파일과 UBT(Unreal Build Tool)의 동작방식 이해
+
   - 모듈과 cs 타겟파일의 이해
 - 언리얼 오브젝트의 이해
   - 네이티브 C++ 클래스와의 차이

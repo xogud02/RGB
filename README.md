@@ -28,11 +28,26 @@
 
 #### 프로젝트 특징
 
-##### 디자인 패턴 적용
+##### 객체지향 요소 적용
+
+- 캡슐화
+
+  - 캐릭터를 이동시키는 워프 객체가 캐릭터의 위치와 방향(필드)를 직접 변경하지 않고 캐릭터에서 구현한 함수를 이용하도록 작성해 구현로직에 대한 유연성을 얻었다.
+  - 캐릭터 생성자의 복잡한 초기화 작업을 내부 메서드로 감싸 가독성과 구현 코드변경에 도움이 되었다.
+
+  ##### 적용 코드
+
+  [RGBCharacter.cpp](https://github.com/xogud02/RGB/blob/master/Source/RGB/RGBCharacter.cpp), [RGBWarp.cpp](https://github.com/xogud02/RGB/blob/master/Source/RGB/RGBWarp.cpp)
+
+- 디자인 패턴 적용
+
+  - 여러 디자인 패턴을 적용하며 타입 은닉을 통한 유연성을 확보할 수 있었다.
+
+##### 디자인 패턴
 
 - 전략 패턴
 
-  배열의 순회순서를 정하는 여러가지 패턴(알고리즘)을 공통의 추상클래스를 상속받는 개별의 객체로 분리해서 사용. 클라이언트에선  공통 조상만 사용했기 때문에 새로운 패턴이 추가되더라도 조상과 클라이언트의 코드는 변하지 않았다. 특히, 공통 조상 타입의 멤버를 UE 에디터에 노출했을때, 구현된 콘크리트 객체를 드롭다운 메뉴로 고를수 있어서 코드의 변경없이 에디터만으로 알고리즘 교체가 용이했다.
+  배열의 순회순서를 정하는 여러가지 패턴(알고리즘)을 공통의 추상클래스(인터페이스)를 구현해 작성했다. 클라이언트에선 공통 인터페이스에 의존하기 때문에 새로운 패턴이 추가될때 유연함을 확보할 수 있었다.  특히, 인터페이스 타입의 멤버를 UE 에디터에 노출했을때, 구현된 객체를 드롭다운 메뉴로 고를수 있어서 에디터 상으로도 편리함을 확보할 수 있었다.
 
   ##### 적용 코드
 
@@ -40,42 +55,27 @@
 
     [RGBObjectMover.cpp](https://github.com/xogud02/RGB/blob/master/Source/RGB/RGBObjectMover.cpp)
 
-  - 추상클래스
+  - 인터페이스
 
     [PositionArrayTraveler.cpp](https://github.com/xogud02/RGB/blob/master/Source/RGB/PositionArrayTraveler.cpp)
 
-  - 콘크리트 클래스
+  - 구현 클래스
 
     [PingPongPAT.cpp](https://github.com/xogud02/RGB/blob/master/Source/RGB/PingPongPAT.cpp), [RandomPAT.cpp](https://github.com/xogud02/RGB/blob/master/Source/RGB/RandomPAT.cpp), [RotationPAT.cpp](https://github.com/xogud02/RGB/blob/master/Source/RGB/RotationPAT.cpp)
 
 - 옵저버 패턴
 
-  게임내 요소들이 플레이어 캐릭터 상태의 변경에 따라 행동할수 있도록 공통의 인터페이스를 구현.
-  
-  캐릭터 상태가 변경되면 옵저버 객체들이 구현한 메서드가 호출되기 때문에 매번 확인할 필요가 없었다. 
-  
-  또한 새로운 옵저버 객체 코드가 추가되도 캐릭터에 등록만 하면 되기때문에 캐릭터의 코드변경은 없었다.
+  게임내 요소들(관찰자)이 플레이어 캐릭터(관찰대상) 상태의 변경에 따라 행동할수 있도록 관찰자 인터페이스를 구현했다. 관찰자 객체들은 Push방식의 이점을 얻을수 있었고, 관찰대상 객체에선 개별의 구현객체가 아닌 관찰자 인터페이스에 의존해 유연성을 확보할 수 있었다.
   
   ##### 적용 코드
   
-  - 주제(Subject, 피관찰) 객체
+  - 관찰대상 객체
   
     [RGBCharacter.cpp](https://github.com/xogud02/RGB/blob/master/Source/RGB/RGBCharacter.cpp)
   
-  - 옵저버 객체
+  - 관찰자 객체
   
     [RGBWarp.cpp](https://github.com/xogud02/RGB/blob/master/Source/RGB/RGBWarp.cpp), [RGBItem.cpp](https://github.com/xogud02/RGB/blob/master/Source/RGB/RGBItem.cpp), [RGBBarrier.cpp](https://github.com/xogud02/RGB/blob/master/Source/RGB/RGBBarrier.cpp)
-
-##### 객체지향 요소 적용
-
-- 캡슐화
-
-  - 캐릭터의 위치를 변경시키는 게임 요소가 캐릭터의 데이터를 직접 다루지 않고 캐릭터의 메서드를 호출.
-  - 생성자의 복잡한 초기화 작업을 내부 메서드로 감싸서 호출.
-  
-  ##### 적용 코드
-  
-  [RGBCharacter.cpp](https://github.com/xogud02/RGB/blob/master/Source/RGB/RGBCharacter.cpp), [RGBWarp.cpp](https://github.com/xogud02/RGB/blob/master/Source/RGB/RGBWarp.cpp)
 
 ##### 자료구조 특성에 따라 자료구조 사용
 
